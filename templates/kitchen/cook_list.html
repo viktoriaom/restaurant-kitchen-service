@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+  {% include 'includes/pre-loader.html' %}
+
+  <!-- End of Hero -->
+  <div class="section section-md">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-12">
+                  <div class="mb-5">
+                      <div class="mb-4">
+                          <span class="h5">Cooks</span>
+                      </div>
+                    {% if cook_list %}
+                      <table class="table table-hover">
+                          <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Username</th>
+                              <th scope="col">First name</th>
+                              <th scope="col">Last name</th>
+                              <th scope="col">Years of experience</th>
+                              <th scope="col">Dishes</th>
+                              <th scope="col">Update</th>
+                          </tr>
+                          {% for cook in cook_list %}
+                          <tr>
+                            <th scope="row">{{ cook.id }}</th>
+                            <th scope="row">{{ cook.username }}</th>
+                            <th scope="row">{{ cook.first_name }}</th>
+                            <th scope="row">{{ cook.last_name }}</th>
+                            <th scope="row">{{ cook.years_of_experience }}</th>
+                            <th scope="row">Explore this cook's dishes</th>
+                            <th scope="row">Update ingredient</th>
+                          </tr>
+                          {% endfor %}
+                    {% else %}
+                      <h6>There are no cooks yet.</h6>
+                      <br>
+                      <h6>Click here add</h6>
+                    {% endif %}
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</main>
+
+{% endblock content %}
