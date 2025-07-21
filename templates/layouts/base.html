@@ -69,7 +69,15 @@
 
   {% endblock header %}
 
-  {% block content %}{% endblock content %}
+  <div class="section section-md">
+    {% block content %}{% endblock content %}
+
+    {% block pagination %}
+
+      {% include 'includes/components/_pagination.html' %}
+
+    {% endblock %}
+  </div>
 
   {% block footer %}
 
