@@ -29,16 +29,19 @@ class DishTypeListView(generic.ListView):
 class DishTypeDetailView(generic.DetailView):
     model = DishType
     template_name = "kitchen/dish_type_detail.html"
+    queryset = DishType.objects.all().prefetch_related("dishes")
 
 class DishListView(generic.ListView):
     model = Dish
     context_object_name = "dish_list"
     template_name = "kitchen/dish_list.html"
     paginate_by = 5
+    queryset = Dish.objects.all().select_related("dish_type")
 
 
 class DishDetailView(generic.DetailView):
     model = Dish
+    queryset = Dish.objects.all().prefetch_related("cooks", "ingredients")
 
 
 class IngredientListView(generic.ListView):
@@ -50,6 +53,7 @@ class IngredientListView(generic.ListView):
 
 class IngredientDetailView(generic.DetailView):
     model = Ingredient
+    queryset = Ingredient.objects.all().prefetch_related("dishes")
 
 
 class CookListView(generic.ListView):
@@ -61,3 +65,4 @@ class CookListView(generic.ListView):
 
 class CookDetailView(generic.DetailView):
     model = Cook
+    queryset = Cook.objects.all().prefetch_related("dishes")
