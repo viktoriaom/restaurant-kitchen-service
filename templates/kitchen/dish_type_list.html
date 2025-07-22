@@ -26,7 +26,7 @@
                         {% for dish_type in dish_type_list %}
                         <tr>
                           <th scope="row">{{ dish_type.id }}</th>
-                          <th scope="row">{{ dish_type.name }}</th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-detail" pk=dish_type.id %}">{{ dish_type.name }}</a></th>
                           <th scope="row">Explore dishes</th>
                           <th scope="row">Update dish type</th>
                         </tr>

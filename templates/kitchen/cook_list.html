@@ -29,7 +29,7 @@
                         {% for cook in cook_list %}
                         <tr>
                           <th scope="row">{{ cook.id }}</th>
-                          <th scope="row">{{ cook.username }}</th>
+                          <th scope="row"><a href="{% url "kitchen:cook-detail" pk=cook.id %}">{{ cook.username }}{% if user == cook %} (Me){% endif %}</a></th>
                           <th scope="row">{{ cook.first_name }}</th>
                           <th scope="row">{{ cook.last_name }}</th>
                           <th scope="row">{{ cook.years_of_experience }}</th>

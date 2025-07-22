@@ -29,7 +29,7 @@
                         {% for dish in dish_list %}
                         <tr>
                           <th scope="row">{{ dish.id }}</th>
-                          <th scope="row">{{ dish.name }}</th>
+                          <th scope="row"><a href="{% url "kitchen:dish-detail" pk=dish.id %}">{{ dish.name }}</a></th>
                           <th scope="row">{{ dish.price }}</th>
                           <th scope="row">ingredients</th>
                           <th scope="row">{{ dish.dish_type.name }}</th>
