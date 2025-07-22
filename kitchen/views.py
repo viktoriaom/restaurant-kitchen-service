@@ -26,6 +26,9 @@ class DishTypeListView(generic.ListView):
     template_name = "kitchen/dish_type_list.html"
     paginate_by = 5
 
+class DishTypeDetailView(generic.DetailView):
+    model = DishType
+    template_name = "kitchen/dish_type_detail.html"
 
 class DishListView(generic.ListView):
     model = Dish
@@ -33,14 +36,28 @@ class DishListView(generic.ListView):
     template_name = "kitchen/dish_list.html"
     paginate_by = 5
 
+
+class DishDetailView(generic.DetailView):
+    model = Dish
+
+
 class IngredientListView(generic.ListView):
     model = Ingredient
     context_object_name = "ingredient_list"
     template_name = "kitchen/ingredient_list.html"
     paginate_by = 5
 
+
+class IngredientDetailView(generic.DetailView):
+    model = Ingredient
+
+
 class CookListView(generic.ListView):
     model = Cook
     context_object_name = "cook_list"
     template_name = "kitchen/cook_list.html"
     paginate_by = 5
+
+
+class CookDetailView(generic.DetailView):
+    model = Cook

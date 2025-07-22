@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+  {% include 'includes/pre-loader.html' %}
+
+<div class="section section-md">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 mt-5">
+                <div class="card shadow mb-6">
+                    <div class="card-body px-5 py-5 text-center text-md-left">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h2 class="mb-3">{{ dish.name }}</h2>
+                                <h6>{{ dish.price }} EUR</h6>
+                                <p class="mb-0">
+                                    {{ dish.description }}
+                                </p>
+                                <br>
+                                <h4>Cooks</h4>
+                                {% for cook in dish.cooks.all %}
+                                  <ul>
+                                    <li>{{ cook.username }}</li>
+                                  </ul>
+                                {% endfor %}
+                                <h4>Ingredients</h4>
+                                {% if dish.ingredients.all %}
+                                  {% for ingredient in dish.ingredients.all %}
+                                    <ul>
+                                      <li>{{ ingredient.name }}</li>
+                                    </ul>
+                                  {% endfor %}
+                                {% else %}
+                                  <p>No ingredients have been added to this dish</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-md-6 mt-4 mt-md-0 text-md-right">
+                                <a href="#" class="btn btn-success">
+                                    Update
+                                </a>
+                                <a href="#" class="btn btn-danger">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <h6><button class="btn btn-tertiary" type="button">Assign me to this dish</button></h6>
+        </div>
+    </div>
+</div>
+
+</main>
+
+{% endblock content %}
