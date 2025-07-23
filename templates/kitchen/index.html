@@ -38,38 +38,54 @@
 
   <section class="section section-lg">
     <div class="container">
+      <br>
+      <div class="col-12 text-center mb-5 mb-lg-6">
+        <h3 class="col-12 text-center">The kitchen service has the following records count:</h3>
+      </div>
       <div class="row justify-content-center mb-5 mb-lg-6">
         <div class="col-6 col-md-3 text-center mb-4">
           <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-            <span class="fas fa-puzzle-piece text-tertiary"></span>
+            <a class="megamenu-link" href="{% url 'kitchen:cook-list' %}">
+              <span class="fas fa-puzzle-piece text-tertiary"></span>
+            </a>
           </div>
           <h3 class="fw-bolder">{{ num_cooks }}</h3>
-          <p class="text-gray">Excellent cooks</p>
+          <p class="text-gray">Cooks</p>
         </div>
         <div class="col-6 col-md-3 text-center mb-4">
           <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-            <span class="fas fa-pager text-tertiary"></span>
+            <a class="megamenu-link" href="{% url 'kitchen:dish-type-list' %}">
+              <span class="fas fa-pager text-tertiary"></span>
+            </a>
           </div>
-          <h3 class="fw-bolder">{{ num_categories }}</h3>
-          <p class="text-gray">Categories</p>
+          <h3 class="fw-bolder">{{ num_dishtypes }}</h3>
+          <p class="text-gray">Dish types</p>
         </div>
         <div class="col-6 col-md-3 text-center">
           <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-            <span class="fab fa-sass text-tertiary"></span>
+            <a class="megamenu-link" href="{% url 'kitchen:dish-list' %}">
+              <span class="fab fa-sass text-tertiary"></span>
+            </a>
           </div>
           <h3 class="fw-bolder">{{ num_dishes }}</h3>
           <p class="text-gray">Dishes</p>
         </div>
         <div class="col-6 col-md-3 text-center">
           <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-            <span class="fab fa-js-square text-tertiary"></span>
+            <a class="megamenu-link" href="{% url 'kitchen:ingredient-list' %}">
+              <span class="fab fa-js-square text-tertiary"></span>
+            </a>
           </div>
           <h3 class="fw-bolder">{{ num_ingredients }}</h3>
           <p class="text-gray">Ingredients</p>
         </div>
       </div>
+      <div class="alert alert-info" role="alert">
+        You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.
+      </div>
     </div>
   </section>
+
 </main>
 
 {% endblock content %}

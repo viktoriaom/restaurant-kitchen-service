@@ -8,14 +8,18 @@ from kitchen.models import Cook, Dish, Ingredient, DishType
 def index(request):
     num_cooks = Cook.objects.all().count()
     num_dishes = Dish.objects.all().count()
-    num_categories = DishType.objects.all().count()
+    num_dishtypes = DishType.objects.all().count()
     num_ingredients = Ingredient.objects.all().count()
+
+    num_visits = request.session.get("num_visits", 0)
+    request.session["num_visits"] = num_visits + 1
 
     context = {
         "num_cooks": num_cooks,
         "num_dishes": num_dishes,
-        "num_categories": num_categories,
+        "num_dishtypes": num_dishtypes,
         "num_ingredients": num_ingredients,
+        "num_visits": num_visits,
     }
 
     return render(request, "kitchen/index.html", context=context)
