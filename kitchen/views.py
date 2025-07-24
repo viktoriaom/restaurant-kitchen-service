@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
+from kitchen.forms import DishTypeCreationForm, DishCreationForm, IngredientCreationForm, CookCreationForm
 from kitchen.models import Cook, Dish, Ingredient, DishType
 
 
@@ -38,6 +40,13 @@ class DishTypeDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "kitchen/dish_type_detail.html"
     queryset = DishType.objects.all().prefetch_related("dishes")
 
+
+class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = DishType
+    form_class = DishTypeCreationForm
+    success_url = reverse_lazy("kitchen:dish-type-list")
+
+
 class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     context_object_name = "dish_list"
@@ -51,6 +60,11 @@ class DishDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Dish.objects.all().prefetch_related("cooks", "ingredients")
 
 
+class DishCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Dish
+    form_class = DishCreationForm
+    success_url = reverse_lazy("kitchen:dish-list")
+
 class IngredientListView(LoginRequiredMixin, generic.ListView):
     model = Ingredient
     context_object_name = "ingredient_list"
@@ -63,6 +77,12 @@ class IngredientDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Ingredient.objects.all().prefetch_related("dishes")
 
 
+class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Ingredient
+    form_class = IngredientCreationForm
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+
 class CookListView(LoginRequiredMixin, generic.ListView):
     model = Cook
     context_object_name = "cook_list"
@@ -73,3 +93,9 @@ class CookListView(LoginRequiredMixin, generic.ListView):
 class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
     queryset = Cook.objects.all().prefetch_related("dishes")
+
+
+class CookCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Cook
+    form_class = CookCreationForm
+    reverse_lazy = reverse_lazy("kitchen:cook-list")
