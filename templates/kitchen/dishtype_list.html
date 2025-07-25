@@ -15,7 +15,7 @@
                     <div class="mb-4">
                         <span class="h5">Dish types</span>
                     </div>
-                  {% if dish_type_list %}
+                  {% if dishtype_list %}
                     <table class="table table-hover">
                         <tr>
                             <th scope="col" id="class3">ID</th>
@@ -23,10 +23,10 @@
                             <th scope="col" id="males3">Dishes</th>
                             <th scope="col" id="females3">Update</th>
                         </tr>
-                        {% for dish_type in dish_type_list %}
+                        {% for dishtype in dishtype_list %}
                         <tr>
-                          <th scope="row">{{ dish_type.id }}</th>
-                          <th scope="row"><a href="{% url "kitchen:dish-type-detail" pk=dish_type.id %}">{{ dish_type.name }}</a></th>
+                          <th scope="row">{{ dishtype.id }}</th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-detail" pk=dishtype.id %}">{{ dishtype.name }}</a></th>
                           <th scope="row">Explore dishes</th>
                           <th scope="row">Update dish type</th>
                         </tr>

@@ -31,13 +31,13 @@ def index(request):
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):
     model = DishType
-    context_object_name = "dish_type_list"
-    template_name = "kitchen/dish_type_list.html"
+    context_object_name = "dishtype_list"
+    template_name = "kitchen/dishtype_list.html"
     paginate_by = 5
 
 class DishTypeDetailView(LoginRequiredMixin, generic.DetailView):
     model = DishType
-    template_name = "kitchen/dish_type_detail.html"
+    template_name = "kitchen/dishtype_detail.html"
     queryset = DishType.objects.all().prefetch_related("dishes")
 
 
@@ -52,7 +52,7 @@ class DishListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "dish_list"
     template_name = "kitchen/dish_list.html"
     paginate_by = 5
-    queryset = Dish.objects.all().select_related("dish_type")
+    queryset = Dish.objects.all().select_related("dishtype")
 
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):

@@ -26,7 +26,7 @@ class DishCreationForm(forms.ModelForm):
                 attrs={"class": "form-control ", "placeholder": "Dish name"}
             ),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
-            "dish_type": forms.Select(attrs={"class": "form-control"}),
+            "dishtype": forms.Select(attrs={"class": "form-control"}),
             "price": forms.NumberInput(attrs={"class": "form-control", "step": "0.5"}),
             "cooks": forms.CheckboxSelectMultiple(attrs={"class": "form-checkbox"}),
         }

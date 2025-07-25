@@ -26,7 +26,7 @@
                                 {% if cook.dishes.all %}
                                   {% for dish in cook.dishes.all %}
                                     <ul>
-                                      <li>{{ dish.name }} from {{ dish.dish_type.name }}</li>
+                                      <li>{{ dish.name }} from {{ dish.dishtype.name }}</li>
                                     </ul>
                                   {% endfor %}
                                 {% else %}
