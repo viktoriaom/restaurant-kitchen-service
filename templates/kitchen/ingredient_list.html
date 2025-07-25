@@ -34,10 +34,14 @@
                         {% endfor %}
                   {% else %}
                     <h6>There are no ingredients yet.</h6>
-                    <br>
-                    <h6>Click here add</h6>
                   {% endif %}
                     </table>
+                  <div>
+                    <br>
+                    <a href="{% url "kitchen:ingredient-create" %}" class="btn btn-tertiary">
+                      Click here to add
+                    </a>
+                  </div>
                 </div>
             </div>
         </div>
