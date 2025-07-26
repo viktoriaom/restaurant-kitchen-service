@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from kitchen.forms import DishTypeCreationForm, DishCreationForm, IngredientCreationForm, CookCreationForm
+from kitchen.forms import DishTypeCreationForm, DishCreationForm, IngredientCreationForm, CookCreationForm, \
+    CookUpdateForm
 from kitchen.models import Cook, Dish, Ingredient, DishType
 
 
@@ -47,6 +48,15 @@ class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("kitchen:dish-type-list")
 
 
+class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = DishType
+    form_class = DishTypeCreationForm
+    success_url = reverse_lazy("kitchen:dish-type-detail")
+
+    def get_success_url(self):
+        return reverse("kitchen:dish-type-detail", kwargs={"pk": self.object.id})
+
+
 class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     context_object_name = "dish_list"
@@ -64,6 +74,16 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     model = Dish
     form_class = DishCreationForm
     success_url = reverse_lazy("kitchen:dish-list")
+
+
+class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Dish
+    form_class = DishCreationForm
+    success_url = reverse_lazy("kitchen:dish-detail")
+
+    def get_success_url(self):
+        return reverse("kitchen:dish-detail", kwargs={"pk": self.object.id})
+
 
 class IngredientListView(LoginRequiredMixin, generic.ListView):
     model = Ingredient
@@ -83,6 +103,15 @@ class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("kitchen:ingredient-list")
 
 
+class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ingredient
+    form_class = IngredientCreationForm
+    success_url = reverse_lazy("kitchen:ingredient-detail")
+
+    def get_success_url(self):
+        return reverse("kitchen:ingredient-detail", kwargs={"pk": self.object.id})
+
+
 class CookListView(LoginRequiredMixin, generic.ListView):
     model = Cook
     context_object_name = "cook_list"
@@ -99,3 +128,12 @@ class CookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Cook
     form_class = CookCreationForm
     reverse_lazy = reverse_lazy("kitchen:cook-list")
+
+
+class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Cook
+    form_class = CookUpdateForm
+    success_url = reverse_lazy("kitchen:cook-detail")
+
+    def get_success_url(self):
+        return reverse("kitchen:cook-detail", kwargs={"pk": self.object.id})
