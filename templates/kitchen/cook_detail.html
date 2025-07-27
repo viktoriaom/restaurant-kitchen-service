@@ -34,10 +34,10 @@
                                 {% endif %}
                             </div>
                             <div class="col-12 col-md-6 mt-4 mt-md-0 text-md-right">
-                                <a href="#" class="btn btn-success">
+                                <a href="{% url "kitchen:cook-update" pk=cook.id %}" class="btn btn-success">
                                     Update
                                 </a>
-                                <a href="#" class="btn btn-danger">
+                                <a href="{% url "kitchen:cook-delete" pk=cook.id %}" class="btn btn-danger">
                                     Delete
                                 </a>
                             </div>
