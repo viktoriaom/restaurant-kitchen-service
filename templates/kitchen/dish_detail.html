@@ -45,6 +45,18 @@
                                 <a href="{% url "kitchen:dish-delete" pk=dish.id %}" class="btn btn-danger">
                                     Delete
                                 </a>
+                              <br><br>
+                              {% if user in dish.cooks.all %}
+                                <form action="{% url "kitchen:dish-remove" dish.id %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Remove me from this dish" class="btn btn-tertiary">
+                                </form>
+                              {% else %}
+                                <form action="{% url "kitchen:dish-add" dish.id %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Assign me to this dish" class="btn btn-tertiary">
+                                </form>
+                              {% endif %}
                             </div>
                         </div>
                     </div>

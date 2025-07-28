@@ -1,5 +1,8 @@
+from http.client import HTTPResponse
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -88,6 +91,27 @@ class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse("kitchen:dish-detail", kwargs={"pk": self.object.id})
+
+
+class DishAddCookView(LoginRequiredMixin, generic.DetailView):
+    model = Dish
+
+    def post(self, request, pk):
+        dish = self.get_object()
+        dish.cooks.add(request.user)
+        dish.save()
+        return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
+
+
+
+class DishRemoveCookView(LoginRequiredMixin, generic.DetailView):
+    model = Dish
+
+    def post(self, request, pk):
+        dish = self.get_object()
+        dish.cooks.remove(request.user)
+        dish.save()
+        return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
 
 
 class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
