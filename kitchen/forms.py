@@ -17,6 +17,17 @@ class DishTypeCreationForm(forms.ModelForm):
         }
 
 
+class DishTypeSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"class": "form-control ", "placeholder": "Search by name"}
+        )
+    )
+
+
 class DishCreationForm(forms.ModelForm):
 
     class Meta:
@@ -33,6 +44,17 @@ class DishCreationForm(forms.ModelForm):
         }
 
 
+class DishSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"class": "form-control ", "placeholder": "Search by name"}
+        )
+    )
+
+
 class IngredientCreationForm(forms.ModelForm):
     class Meta:
         model = Ingredient
@@ -43,6 +65,17 @@ class IngredientCreationForm(forms.ModelForm):
             ),
             "dishes": forms.CheckboxSelectMultiple(attrs={"class": "form-checkbox"}),
         }
+
+
+class IngredientSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"class": "form-control ", "placeholder": "Search by name"}
+        )
+    )
 
 
 class CookCreationForm(UserCreationForm):
@@ -100,3 +133,14 @@ class CookUpdateForm(LoginRequiredMixin, forms.ModelForm):
             "years_of_experience": forms.NumberInput(
                 attrs={"class": "form-control", "placeholder": "Years of experience"}),
         }
+
+
+class CookSearchForm(forms.Form):
+    username = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"class": "form-control ", "placeholder": "Search by username"}
+        )
+    )
