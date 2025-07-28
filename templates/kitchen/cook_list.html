@@ -23,8 +23,6 @@
                             <th scope="col">First name</th>
                             <th scope="col">Last name</th>
                             <th scope="col">Years of experience</th>
-                            <th scope="col">Dishes</th>
-                            <th scope="col">Update</th>
                         </tr>
                         {% for cook in cook_list %}
                         <tr>
@@ -33,8 +31,6 @@
                           <th scope="row">{{ cook.first_name }}</th>
                           <th scope="row">{{ cook.last_name }}</th>
                           <th scope="row">{{ cook.years_of_experience }}</th>
-                          <th scope="row">Explore this cook's dishes</th>
-                          <th scope="row">Update ingredient</th>
                         </tr>
                         {% endfor %}
                   {% else %}

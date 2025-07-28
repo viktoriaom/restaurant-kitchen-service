@@ -20,15 +20,15 @@
                         <tr>
                             <th scope="col" id="class3">ID</th>
                             <th scope="col" id="teacher3">Name</th>
-                            <th scope="col" id="males3">Dishes</th>
                             <th scope="col" id="females3">Update</th>
+                            <th scope="col" id="males3">Delete</th>
                         </tr>
                         {% for dishtype in dishtype_list %}
                         <tr>
                           <th scope="row">{{ dishtype.id }}</th>
                           <th scope="row"><a href="{% url "kitchen:dish-type-detail" pk=dishtype.id %}">{{ dishtype.name }}</a></th>
-                          <th scope="row">Explore dishes</th>
-                          <th scope="row">Update dish type</th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-update" pk=dishtype.id %}" class="btn btn-success">Update</a></th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-delete" pk=dishtype.id %}" class="btn btn-danger">Delete</a></th>
                         </tr>
                         {% endfor %}
                   {% else %}

@@ -21,15 +21,15 @@
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Ingredients</th>
                             <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
                         </tr>
                         {% for ingredient in ingredient_list %}
                         <tr>
                           <th scope="row">{{ ingredient.id }}</th>
                           <th scope="row"><a href="{% url "kitchen:ingredient-detail" pk=ingredient.id %}">{{ ingredient.name }}</a></th>
-                          <th scope="row">Explore dishes with this ingredient</th>
-                          <th scope="row">Update ingredient</th>
+                          <th scope="row"><a href="{% url "kitchen:ingredient-update" pk=ingredient.id %}" class="btn btn-success">Update</a></th>
+                          <th scope="row"><a href="{% url "kitchen:ingredient-delete" pk=ingredient.id %}" class="btn btn-danger">Delete</a></th>
                         </tr>
                         {% endfor %}
                   {% else %}

@@ -21,20 +21,14 @@
                             <th scope="col" id="class3">ID</th>
                             <th scope="col" id="teacher3">Name</th>
                             <th scope="col" id="males3">Price</th>
-                            <th scope="col" id="males3">Ingredients</th>
                             <th scope="col" id="males3">Dish type</th>
-                            <th scope="col" id="males3">Cooks</th>
-                            <th scope="col" id="females3">Update</th>
                         </tr>
                         {% for dish in dish_list %}
                         <tr>
                           <th scope="row">{{ dish.id }}</th>
                           <th scope="row"><a href="{% url "kitchen:dish-detail" pk=dish.id %}">{{ dish.name }}</a></th>
                           <th scope="row">{{ dish.price }}</th>
-                          <th scope="row">ingredients</th>
                           <th scope="row">{{ dish.dishtype.name }}</th>
-                          <th scope="row">cooks</th>
-                          <th scope="row">Update dish type</th>
                         </tr>
                         {% endfor %}
                   {% else %}
