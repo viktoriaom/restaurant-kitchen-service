@@ -3,9 +3,10 @@ from http.client import HTTPResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
+
 
 from kitchen.forms import DishTypeCreationForm, DishCreationForm, IngredientCreationForm, CookCreationForm, \
     CookUpdateForm, CookSearchForm, IngredientSearchForm, DishSearchForm, DishTypeSearchForm
@@ -132,7 +133,6 @@ class DishAddCookView(LoginRequiredMixin, generic.DetailView):
         return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
 
 
-
 class DishRemoveCookView(LoginRequiredMixin, generic.DetailView):
     model = Dish
 
@@ -141,6 +141,42 @@ class DishRemoveCookView(LoginRequiredMixin, generic.DetailView):
         dish.cooks.remove(request.user)
         dish.save()
         return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
+
+
+class DishUpdateIngredientView(LoginRequiredMixin, generic.ListView):
+    model = Ingredient
+    template_name = "kitchen/dish_update_ingredient.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        name = self.request.GET.get("name")
+        if name:
+            return Ingredient.objects.filter(name__icontains=name)
+        return Ingredient.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["dish"] = get_object_or_404(Dish, pk=self.kwargs["pk"])
+        name = self.request.GET.get("name", "")
+        context["search_form"] = IngredientSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+    def post(self, request, pk):
+        dish = get_object_or_404(Dish, pk=pk)
+        ingredient_pk = request.POST.get("ingredient_id")
+        action = request.POST.get("action")
+        ingredient = get_object_or_404(Ingredient, pk=ingredient_pk)
+
+        if action == "add":
+            dish.ingredients.add(ingredient)
+        elif action == "remove":
+            dish.ingredients.remove(ingredient)
+
+        return redirect(reverse(
+            "kitchen:dish-update-ingredient", kwargs={"pk": pk})
+        )
 
 
 class DishDeleteView(LoginRequiredMixin, generic.DeleteView):

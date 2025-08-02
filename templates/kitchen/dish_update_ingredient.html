@@ -1,0 +1,32 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Manage Ingredients for <span class="text-muted">{{ dish.name }}</span></h2>
+  <form action="" method="get" class="d-lg-inline-flex">
+                      {{ search_form }}
+                    <input type="submit" value="Search 🔍" class="mx-1 btn btn-secondary">
+                    </form>
+  <ul class="list-group mt-4">
+    {% for ingredient in page_obj %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ ingredient.name }}
+        <form method="post" style="display:inline;">
+          {% csrf_token %}
+          <input type="hidden" name="ingredient_id" value="{{ ingredient.id }}">
+          {% if ingredient in dish.ingredients.all %}
+            <input type="hidden" name="action" value="remove">
+            <button class="btn btn-danger btn-sm">Remove</button>
+          {% else %}
+            <input type="hidden" name="action" value="add">
+            <button class="btn btn-success btn-sm">Add</button>
+          {% endif %}
+        </form>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No ingredients available</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url "kitchen:dish-detail" dish.pk %}" class="btn btn-tertiary mt-4">Back to Dish</a>
+  <a href="{% url "kitchen:ingredient-create" %}" class="btn btn-tertiary mt-4">Create ingredient</a>
+</div>
+{% endblock %}
