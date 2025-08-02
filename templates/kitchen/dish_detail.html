@@ -37,6 +37,7 @@
                                 {% else %}
                                   <p>No ingredients have been added to this dish</p>
                                 {% endif %}
+                              <a href="{% url "kitchen:dish-update-ingredient" pk=dish.id %}" class="btn btn-secondary">Update ingredients</a>
                             </div>
                             <div class="col-12 col-md-6 mt-4 mt-md-0 text-md-right">
                                 <a href="{% url "kitchen:dish-update" pk=dish.id %}" class="btn btn-success">
