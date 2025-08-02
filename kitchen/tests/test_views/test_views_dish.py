@@ -208,3 +208,74 @@ class PrivateDishTest(TestCase):
         self.assertFalse(Dish.objects.filter(
             pk=dish.id).exists()
                          )
+
+    def test_dish_update_ingredient(self):
+        dishtype = DishType.objects.create(
+            name="DishType_test",
+        )
+        cook = get_user_model().objects.get(id=1)
+        dish = Dish.objects.create(
+            name="Pasta",
+            description="description dish test",
+            price=10,
+            dishtype=dishtype,
+        )
+        dish.cooks.add(cook)
+        ingredient_one = Ingredient.objects.create(
+            name="Ingredient_one_test",
+        )
+        ingredient_two = Ingredient.objects.create(
+            name="Ingredient_two_test",
+        )
+        ingredient_one.dishes.add(dish)
+
+        response = self.client.get(
+            reverse("kitchen:dish-update-ingredient", args=[dish.id])
+        )
+        self.assertContains(response, ingredient_one.name)
+        self.assertContains(response, ingredient_two.name)
+        dish_ingredients = dish.ingredients.all()
+        self.assertIn(ingredient_one, dish_ingredients)
+        self.assertNotIn(ingredient_two, dish_ingredients)
+        self.assertTemplateUsed(
+            response, "kitchen/dish_update_ingredient.html"
+        )
+        response = self.client.post(
+            reverse("kitchen:dish-update-ingredient", args=[dish.id]),
+            data={"ingredient_id": ingredient_two.id, "action": "add"}
+        )
+        self.assertEqual(response.status_code, 302)
+        dish_ingredients = dish.ingredients.all()
+        self.assertIn(ingredient_one, dish_ingredients)
+        self.assertIn(ingredient_two, dish_ingredients)
+        response = self.client.post(
+            reverse("kitchen:dish-update-ingredient", args=[dish.id]),
+            data={"ingredient_id": ingredient_one.id, "action": "remove"}
+        )
+        self.assertEqual(response.status_code, 302)
+        dish_ingredients = dish.ingredients.all()
+        self.assertNotIn(ingredient_one, dish_ingredients)
+        self.assertIn(ingredient_two, dish_ingredients)
+
+    def test_dish_update_ingredient_pagination(self):
+        dishtype = DishType.objects.create(
+            name="DishType_test",
+        )
+        dish = Dish.objects.create(
+            name="Pasta",
+            description="description dish test",
+            price=10,
+            dishtype=dishtype,
+        )
+        for num in range(pagination_num * 2):
+            ingredient = Ingredient.objects.create(
+                name=f"Ingredient_test {num}",
+            )
+            ingredient.dishes.add(dish)
+
+        response = self.client.get(reverse(
+            "kitchen:dish-update-ingredient", args=[dish.id])
+        )
+        self.assertEqual(
+            len(response.context["ingredient_list"]), pagination_num
+        )
