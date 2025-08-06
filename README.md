@@ -5,16 +5,16 @@ Django project for managing dishes and cooks in a restaurant
 ## Installation
 Python 3.11 must be already installed
 
-git clone https://github.com/viktoriaom/restaurant-kitchen-service
-cd restaurant_kitchen_service
-python3 -m venv venv
-source venv/bin/activate # creates virtual environment on macOS/Linux
-venv\Scripts\activate # creates virtual environment on Windows
-pip install -r requirements.txt
-create .env file based on the example
-python manage.py makemigrations # creates migrations
-python manage.py migrate # creates DB
-python manage.py runserver # starts Django server
+git clone https://github.com/viktoriaom/restaurant-kitchen-service  
+cd restaurant_kitchen_service  
+python3 -m venv venv  
+source venv/bin/activate # creates virtual environment on macOS/Linux  
+venv\Scripts\activate # creates virtual environment on Windows  
+pip install -r requirements.txt  
+create .env file based on the example  
+python manage.py makemigrations # creates migrations  
+python manage.py migrate # creates DB  
+python manage.py runserver # starts Django server  
 
 ## Features
 * Authorisation functionality for Cook/User
