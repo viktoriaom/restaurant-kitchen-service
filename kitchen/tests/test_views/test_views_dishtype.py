@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.test import TestCase
 
 from django.urls import reverse
@@ -21,6 +22,8 @@ class PrivateDishtypeTest(TestCase):
             username="cook",
             password="cook_test",
         )
+        group = Group.objects.get(name="manager")
+        self.user.groups.add(group)
         self.client.force_login(self.user)
 
     def create_dishtypes_for_test(self):
