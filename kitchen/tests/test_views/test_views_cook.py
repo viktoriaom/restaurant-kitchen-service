@@ -187,3 +187,43 @@ class PrivateCookTest(TestCase):
         self.assertFalse(get_user_model().objects.filter(
             pk=cook_new.id).exists()
                          )
+
+    def test_access_trainee_group_required(self):
+        manager = Group.objects.get(name="manager")
+        self.user.groups.remove(manager)
+        trainee = Group.objects.get(name="trainee")
+        self.user.groups.add(trainee)
+        self.create_cooks_for_test()
+        cook = Cook.objects.get(id=3)
+        response = self.client.post(
+            reverse("kitchen:cook-create")
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:cook-update", args=[cook.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:cook-delete", args=[cook.id])
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_access_employee_group_required(self):
+        manager = Group.objects.get(name="manager")
+        self.user.groups.remove(manager)
+        employee = Group.objects.get(name="employee")
+        self.user.groups.add(employee)
+        self.create_cooks_for_test()
+        cook = Cook.objects.get(id=3)
+        response = self.client.post(
+            reverse("kitchen:cook-create")
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:cook-update", args=[cook.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:cook-delete", args=[cook.id])
+        )
+        self.assertEqual(response.status_code, 403)

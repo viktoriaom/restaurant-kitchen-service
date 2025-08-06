@@ -115,3 +115,23 @@ class PrivateDishtypeTest(TestCase):
         self.assertFalse(DishType.objects.filter(
             pk=new_dishtype.id).exists()
                          )
+
+    def test_access_trainee_group_required(self):
+        manager = Group.objects.get(name="manager")
+        self.user.groups.remove(manager)
+        trainee = Group.objects.get(name="trainee")
+        self.user.groups.add(trainee)
+        self.create_dishtypes_for_test()
+        dishtype = DishType.objects.get(id=1)
+        response = self.client.post(
+            reverse("kitchen:dish-type-create")
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:dish-type-update", args=[dishtype.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:dish-type-delete", args=[dishtype.id])
+        )
+        self.assertEqual(response.status_code, 403)

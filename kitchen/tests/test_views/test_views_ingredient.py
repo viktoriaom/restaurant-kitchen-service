@@ -193,3 +193,23 @@ class PrivateIngredientTest(TestCase):
         self.assertFalse(Ingredient.objects.filter(
             pk=ingredient.id).exists()
                          )
+
+    def test_access_trainee_group_required(self):
+        manager = Group.objects.get(name="manager")
+        self.user.groups.remove(manager)
+        trainee = Group.objects.get(name="trainee")
+        self.user.groups.add(trainee)
+        self.create_ingredients_for_test()
+        ingredient = Ingredient.objects.get(id=1)
+        response = self.client.post(
+            reverse("kitchen:ingredient-create")
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:ingredient-update", args=[ingredient.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:ingredient-delete", args=[ingredient.id])
+        )
+        self.assertEqual(response.status_code, 403)

@@ -282,3 +282,23 @@ class PrivateDishTest(TestCase):
         self.assertEqual(
             len(response.context["ingredient_list"]), pagination_num
         )
+
+    def test_access_trainee_group_required(self):
+        manager = Group.objects.get(name="manager")
+        self.user.groups.remove(manager)
+        trainee = Group.objects.get(name="trainee")
+        self.user.groups.add(trainee)
+        self.create_dishes_for_test()
+        dish = Dish.objects.get(id=1)
+        response = self.client.post(
+            reverse("kitchen:dish-create")
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:dish-update", args=[dish.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(
+            reverse("kitchen:dish-delete", args=[dish.id])
+        )
+        self.assertEqual(response.status_code, 403)
