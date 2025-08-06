@@ -1,15 +1,24 @@
-from http.client import HTTPResponse
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import GroupRequiredMixin
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 
-from kitchen.forms import DishTypeCreationForm, DishCreationForm, IngredientCreationForm, CookCreationForm, \
-    CookUpdateForm, CookSearchForm, IngredientSearchForm, DishSearchForm, DishTypeSearchForm
+from kitchen.forms import (
+    DishTypeCreationForm,
+    DishCreationForm,
+    IngredientCreationForm,
+    CookCreationForm,
+    CookUpdateForm,
+    CookSearchForm,
+    IngredientSearchForm,
+    DishSearchForm,
+    DishTypeSearchForm)
+
 from kitchen.models import Cook, Dish, Ingredient, DishType
 
 
@@ -33,6 +42,7 @@ def index(request):
     }
 
     return render(request, "kitchen/index.html", context=context)
+
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):
     model = DishType
@@ -61,22 +71,33 @@ class DishTypeDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = DishType.objects.all().prefetch_related("dishes")
 
 
-class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+class DishTypeCreateView(GroupRequiredMixin,
+                         LoginRequiredMixin,
+                         generic.CreateView):
+    group_required = ["employee", "manager"]
     model = DishType
     form_class = DishTypeCreationForm
     success_url = reverse_lazy("kitchen:dish-type-list")
 
 
-class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+class DishTypeUpdateView(GroupRequiredMixin,
+                         LoginRequiredMixin,
+                         generic.UpdateView):
+    group_required = ["employee", "manager"]
     model = DishType
     form_class = DishTypeCreationForm
     success_url = reverse_lazy("kitchen:dish-type-detail")
 
     def get_success_url(self):
-        return reverse("kitchen:dish-type-detail", kwargs={"pk": self.object.id})
+        return reverse(
+            "kitchen:dish-type-detail", kwargs={"pk": self.object.id}
+        )
 
 
-class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+class DishTypeDeleteView(GroupRequiredMixin,
+                         LoginRequiredMixin,
+                         generic.DeleteView):
+    group_required = ["employee", "manager"]
     model = DishType
     success_url = reverse_lazy("kitchen:dish-type-list")
 
@@ -86,7 +107,6 @@ class DishListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "dish_list"
     template_name = "kitchen/dish_list.html"
     paginate_by = 5
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(DishListView, self).get_context_data(**kwargs)
@@ -99,7 +119,8 @@ class DishListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         name = self.request.GET.get("name")
         if name:
-            return Dish.objects.filter(name__icontains=name).select_related("dishtype")
+            return Dish.objects.filter(
+                name__icontains=name).select_related("dishtype")
         return Dish.objects.all().select_related("dishtype")
 
 
@@ -108,13 +129,19 @@ class DishDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Dish.objects.all().prefetch_related("cooks", "ingredients")
 
 
-class DishCreateView(LoginRequiredMixin, generic.CreateView):
+class DishCreateView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.CreateView):
+    group_required = ["employee", "manager"]
     model = Dish
     form_class = DishCreationForm
     success_url = reverse_lazy("kitchen:dish-list")
 
 
-class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+class DishUpdateView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.UpdateView):
+    group_required = ["employee", "manager"]
     model = Dish
     form_class = DishCreationForm
     success_url = reverse_lazy("kitchen:dish-detail")
@@ -123,7 +150,10 @@ class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
         return reverse("kitchen:dish-detail", kwargs={"pk": self.object.id})
 
 
-class DishAddCookView(LoginRequiredMixin, generic.DetailView):
+class DishAddCookView(GroupRequiredMixin,
+                      LoginRequiredMixin,
+                      generic.DetailView):
+    group_required = ["employee", "manager"]
     model = Dish
 
     def post(self, request, pk):
@@ -133,7 +163,10 @@ class DishAddCookView(LoginRequiredMixin, generic.DetailView):
         return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
 
 
-class DishRemoveCookView(LoginRequiredMixin, generic.DetailView):
+class DishRemoveCookView(GroupRequiredMixin,
+                         LoginRequiredMixin,
+                         generic.DetailView):
+    group_required = ["employee", "manager"]
     model = Dish
 
     def post(self, request, pk):
@@ -143,7 +176,10 @@ class DishRemoveCookView(LoginRequiredMixin, generic.DetailView):
         return HttpResponseRedirect(reverse("kitchen:dish-detail", args=[pk]))
 
 
-class DishUpdateIngredientView(LoginRequiredMixin, generic.ListView):
+class DishUpdateIngredientView(GroupRequiredMixin,
+                               LoginRequiredMixin,
+                               generic.ListView):
+    group_required = ["employee", "manager"]
     model = Ingredient
     template_name = "kitchen/dish_update_ingredient.html"
     paginate_by = 5
@@ -179,7 +215,10 @@ class DishUpdateIngredientView(LoginRequiredMixin, generic.ListView):
         )
 
 
-class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
+class DishDeleteView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.DeleteView):
+    group_required = ["employee", "manager"]
     model = Dish
     success_url = reverse_lazy("kitchen:dish-list")
 
@@ -210,22 +249,33 @@ class IngredientDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Ingredient.objects.all().prefetch_related("dishes")
 
 
-class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+class IngredientCreateView(GroupRequiredMixin,
+                           LoginRequiredMixin,
+                           generic.CreateView):
+    group_required = ["employee", "manager"]
     model = Ingredient
     form_class = IngredientCreationForm
     success_url = reverse_lazy("kitchen:ingredient-list")
 
 
-class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+class IngredientUpdateView(GroupRequiredMixin,
+                           LoginRequiredMixin,
+                           generic.UpdateView):
+    group_required = ["employee", "manager"]
     model = Ingredient
     form_class = IngredientCreationForm
     success_url = reverse_lazy("kitchen:ingredient-detail")
 
     def get_success_url(self):
-        return reverse("kitchen:ingredient-detail", kwargs={"pk": self.object.id})
+        return reverse(
+            "kitchen:ingredient-detail", kwargs={"pk": self.object.id}
+        )
 
 
-class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+class IngredientDeleteView(GroupRequiredMixin,
+                           LoginRequiredMixin,
+                           generic.DeleteView):
+    group_required = ["employee", "manager",]
     model = Ingredient
     success_url = reverse_lazy("kitchen:ingredient-list")
 
@@ -256,13 +306,19 @@ class CookDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Cook.objects.all().prefetch_related("dishes")
 
 
-class CookCreateView(LoginRequiredMixin, generic.CreateView):
+class CookCreateView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.CreateView):
+    group_required = ["manager"]
     model = Cook
     form_class = CookCreationForm
     reverse_lazy = reverse_lazy("kitchen:cook-list")
 
 
-class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
+class CookUpdateView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.UpdateView):
+    group_required = ["manager"]
     model = Cook
     form_class = CookUpdateForm
     success_url = reverse_lazy("kitchen:cook-detail")
@@ -271,6 +327,9 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         return reverse("kitchen:cook-detail", kwargs={"pk": self.object.id})
 
 
-class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
+class CookDeleteView(GroupRequiredMixin,
+                     LoginRequiredMixin,
+                     generic.DeleteView):
+    group_required = ["manager"]
     model = Cook
     success_url = reverse_lazy("kitchen:cook-list")
