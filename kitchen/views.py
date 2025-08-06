@@ -305,6 +305,16 @@ class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
     queryset = Cook.objects.all().prefetch_related("dishes")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cook = self.object
+        try:
+            cook_group = cook.groups.first()  # Assuming one group per cook
+        except Exception:
+            cook_group = None
+        context["cook_group"] = cook_group
+        return context
+
 
 class CookCreateView(GroupRequiredMixin,
                      LoginRequiredMixin,

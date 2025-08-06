@@ -21,6 +21,9 @@
                                 <p class="mb-0">
                                     Years of experience: {{ cook.years_of_experience }}
                                 </p>
+                                {% if cook_group %}
+                                  <p>Role: {{ cook_group }}</p>
+                                {% endif %}
                                 <br>
                                 <h4>Dishes:</h4>
                                 {% if cook.dishes.all %}
