@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 mt-5">
+
+                <div class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-900">
+                    <div class="card-body px-5 py-5 text-center text-md-left">
+                        <div class="row align-items-center">
+                          <h1>{{ object|yesno:"Update,Create" }} ingredient</h1>
+                          <form action="" method="post" class="mt-4" novalidate>
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group mb-4">
+                                    <label>{{ field.label }}</label>
+                                    <div>
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                <span class="text-danger"> {{ field.errors }} </span>
+                                {% endfor %}
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                          </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}>

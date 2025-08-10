@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+  {% include 'includes/pre-loader.html' %}
+
+<div class="section section-md">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 mt-5">
+                <div class="card shadow mb-6">
+                    <div class="card-body px-5 py-5 text-center text-md-left">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h2 class="mb-3">Username: {{ cook.username }}</h2>
+                                <h6>First name: {{ cook.first_name }}</h6>
+                                <h6>Last name: {{ cook.last_name }}</h6>
+                                <p class="mb-0">
+                                    Years of experience: {{ cook.years_of_experience }}
+                                </p>
+                                {% if cook_group %}
+                                  <p>Role: {{ cook_group }}</p>
+                                {% endif %}
+                                <br>
+                                <h4>Dishes:</h4>
+                                {% if cook.dishes.all %}
+                                  {% for dish in cook.dishes.all %}
+                                    <ul>
+                                      <li>{{ dish.name }} from {{ dish.dishtype.name }}</li>
+                                    </ul>
+                                  {% endfor %}
+                                {% else %}
+                                  <p>This cook does not prepare any dishes</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-md-6 mt-4 mt-md-0 text-md-right">
+                                <a href="{% url "kitchen:cook-update" pk=cook.id %}" class="btn btn-success">
+                                    Update
+                                </a>
+                                <a href="{% url "kitchen:cook-delete" pk=cook.id %}" class="btn btn-danger">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+{% endblock content %}

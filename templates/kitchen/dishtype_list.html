@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+  {% include 'includes/pre-loader.html' %}
+
+  <!-- End of Hero -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="mb-5">
+                    <div class="mb-4">
+                        <span class="h5">Dish types</span>
+                    </div>
+                  {% if dishtype_list %}
+                    <form action="" method="get" class="d-lg-inline-flex">
+                      {{ search_form }}
+                    <input type="submit" value="Search 🔍" class="mx-1 btn btn-secondary">
+                  </form>
+                    <table class="table table-hover">
+                        <tr>
+                            <th scope="col" id="class3">ID</th>
+                            <th scope="col" id="teacher3">Name</th>
+                            <th scope="col" id="females3">Update</th>
+                            <th scope="col" id="males3">Delete</th>
+                        </tr>
+                        {% for dishtype in dishtype_list %}
+                        <tr>
+                          <th scope="row">{{ dishtype.id }}</th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-detail" pk=dishtype.id %}">{{ dishtype.name }}</a></th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-update" pk=dishtype.id %}" class="btn btn-success">Update</a></th>
+                          <th scope="row"><a href="{% url "kitchen:dish-type-delete" pk=dishtype.id %}" class="btn btn-danger">Delete</a></th>
+                        </tr>
+                        {% endfor %}
+                  {% else %}
+                    <h6>There are no dish types yet.</h6>
+                  {% endif %}
+                    </table>
+                  <div>
+                    <br>
+                    <a href="{% url "kitchen:dish-type-create" %}" class="btn btn-tertiary">
+                      Click here to add
+                    </a>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+<div class="section section-md">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 mt-5">
+                <div class="card shadow mb-6">
+                    <div class="card-body px-5 py-5 text-center text-md-left">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h2 class="text-danger mb-5">You are nor authorised to make these changes</h2>
+                            </div>
+                            <div class="col-12 col-md-6 mt-4 mt-md-0 text-md-right">
+                              <a href="{% url "kitchen:index" %}" class="btn btn-success">Back home</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+
+  {% include 'includes/pre-loader.html' %}
+
+  <!-- End of Hero -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="mb-5">
+                    <div class="mb-4">
+                        <span class="h5">Cooks</span>
+                    </div>
+                  {% if cook_list %}
+                    <form action="" method="get" class="d-lg-inline-flex">
+                      {{ search_form }}
+                    <input type="submit" value="Search 🔍" class="mx-1 btn btn-secondary">
+                  </form>
+                    <table class="table table-hover">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Last name</th>
+                            <th scope="col">Years of experience</th>
+                        </tr>
+                        {% for cook in cook_list %}
+                        <tr>
+                          <th scope="row">{{ cook.id }}</th>
+                          <th scope="row"><a href="{% url "kitchen:cook-detail" pk=cook.id %}">{{ cook.username }}{% if user == cook %} (Me){% endif %}</a></th>
+                          <th scope="row">{{ cook.first_name }}</th>
+                          <th scope="row">{{ cook.last_name }}</th>
+                          <th scope="row">{{ cook.years_of_experience }}</th>
+                        </tr>
+                        {% endfor %}
+                  {% else %}
+                    <h6>There are no cooks yet.</h6>
+                  {% endif %}
+                    </table>
+                  <div>
+                    <br>
+                    <a href="{% url "kitchen:cook-create" %}" class="btn btn-tertiary">
+                      Click here to add
+                    </a>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}
