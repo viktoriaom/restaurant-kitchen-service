@@ -6,6 +6,7 @@ Django==5.2.4
 django-crispy-forms==2.4
 django-theme-pixel==1.0.7
 flake8==7.3.0
+gunicorn==23.0.0
 mccabe==0.7.0
 mypy_extensions==1.1.0
 packaging==25.0
