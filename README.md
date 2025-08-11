@@ -2,6 +2,13 @@
 
 Django project for managing dishes and cooks in a restaurant
 
+## Check it out  
+https://restaurant-kitchen-service-5gq2.onrender.com/
+
+You can use these test credentials  
+login: user  
+password: user12345
+
 ## Installation
 Python 3.11 must be already installed
 
